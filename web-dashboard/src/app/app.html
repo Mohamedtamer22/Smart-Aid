@@ -1,0 +1,1074 @@
+@if (!auth.isAuthenticated()) {
+  <div class="auth-backdrop">
+    <div class="auth-grid-overlay" aria-hidden="true"></div>
+    <div class="auth-shell">
+      <!-- Left Brand Identity Showcase -->
+      <section class="auth-hero">
+        <div class="hero-top-badge">
+          <span class="brand-pulse"></span>
+          <span>SMART AID • ECC v2.1</span>
+        </div>
+
+        <div class="hero-logo-row">
+          <div class="hero-emblem" aria-hidden="true">
+            <svg viewBox="0 0 32 32" width="28" height="28" fill="none">
+              <path d="M16 4L27 8.5V16.2C27 22.8 22.2 27.6 16 29.5C9.8 27.6 5 22.8 5 16.2V8.5L16 4Z" stroke="currentColor" stroke-width="2" fill="rgba(255,255,255,0.12)" />
+              <path d="M9.5 16.5H13L14.8 12.5L17.4 20.2L19.4 16.5H22.5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+          <div>
+            <div class="hero-brand-name">Smart Aid</div>
+            <div class="hero-brand-team">Team FirstLine • Connected Healthcare</div>
+          </div>
+        </div>
+
+        <h2 class="hero-headline">The Right Help.<br />At the Right Time.</h2>
+        <p class="hero-copy">
+          Unified command center bridging real-time citizen SOS dispatches, Smart ER multi-factor hospital routing, and 9 connected medical portals.
+        </p>
+
+        <div class="hero-pillars">
+          <div class="pillar-item">
+            <div class="pillar-icon blue">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div>
+              <div class="pillar-title">Live Mobile-to-ECC Telemetry</div>
+              <div class="pillar-sub">5-second real-time queue synchronization with APK dispatches</div>
+            </div>
+          </div>
+          <div class="pillar-item">
+            <div class="pillar-icon teal">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div>
+              <div class="pillar-title">Smart ER Multi-Factor Scoring</div>
+              <div class="pillar-sub">Travel time, hospital capability, specialty &amp; live congestion</div>
+            </div>
+          </div>
+          <div class="pillar-item">
+            <div class="pillar-icon red">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 21s-6-4.35-9-8.5C.5 9 2.5 4.5 6.5 4.5c2.2 0 4 1.3 5.5 3 1.5-1.7 3.3-3 5.5-3 4 0 6 4.5 3.5 8-3 4.15-9 8.5-9 8.5z" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div>
+              <div class="pillar-title">9-Role Connected Care Network</div>
+              <div class="pillar-sub">EMS, Hospitals, Pharmacies, Blood Banks, Labs &amp; Doctors</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Authentication Card -->
+      <section class="auth-card">
+        <div class="auth-brand">
+          <div class="brand-pulse"></div>
+          <span>SMART AID • ECC COMMAND</span>
+        </div>
+        <h1>Emergency Command Center</h1>
+        <p class="auth-sub">
+          Sign in with your operational operator credentials to access live dispatch and healthcare portals.
+        </p>
+
+        <form (ngSubmit)="onLogin()" class="auth-form">
+          <label>
+            <span>Operator Email</span>
+            <div class="input-wrap">
+              <input
+                type="email"
+                name="email"
+                autocomplete="username"
+                [(ngModel)]="email"
+                required
+                placeholder="demo.admin@smartaid.local"
+              />
+            </div>
+          </label>
+          <label>
+            <span>Password</span>
+            <div class="input-wrap has-action">
+              <input
+                [type]="showPassword() ? 'text' : 'password'"
+                name="password"
+                autocomplete="current-password"
+                [(ngModel)]="password"
+                required
+                placeholder="Enter operator password"
+              />
+              <button
+                type="button"
+                class="input-toggle"
+                (click)="togglePasswordVisibility()"
+                [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'"
+              >
+                {{ showPassword() ? 'Hide' : 'Show' }}
+              </button>
+            </div>
+          </label>
+
+          @if (loginError()) {
+            <div class="banner-error" role="alert">{{ loginError() }}</div>
+          }
+
+          <button type="submit" class="btn-primary btn-block btn-lg" [disabled]="loading()">
+            @if (loading()) {
+              <span class="spinner" aria-hidden="true"></span>
+              <span>Authenticating...</span>
+            } @else {
+              <span>Enter Command Center</span>
+              <span aria-hidden="true">→</span>
+            }
+          </button>
+        </form>
+
+        <div class="sandbox-picker">
+          <div class="sandbox-header">
+            <span class="sandbox-title">DEMO • Local Sandbox Roles (All 9 Roles)</span>
+            <span class="sandbox-pill">9 RBAC Portals</span>
+          </div>
+          <div class="chip-grid">
+            <button type="button" class="role-chip" [class.selected]="email === 'demo.admin@smartaid.local'" (click)="selectDemoRole('demo.admin@smartaid.local')">
+              <span class="chip-dot navy"></span>Admin / ECC
+            </button>
+            <button type="button" class="role-chip" [class.selected]="email === 'demo.ems@smartaid.local'" (click)="selectDemoRole('demo.ems@smartaid.local')">
+              <span class="chip-dot red"></span>EMS
+            </button>
+            <button type="button" class="role-chip" [class.selected]="email === 'demo.hospital@smartaid.local'" (click)="selectDemoRole('demo.hospital@smartaid.local')">
+              <span class="chip-dot blue"></span>Hospital
+            </button>
+            <button type="button" class="role-chip" [class.selected]="email === 'demo.pharmacist@smartaid.local'" (click)="selectDemoRole('demo.pharmacist@smartaid.local')">
+              <span class="chip-dot green"></span>Pharmacist
+            </button>
+            <button type="button" class="role-chip" [class.selected]="email === 'demo.bloodbank@smartaid.local'" (click)="selectDemoRole('demo.bloodbank@smartaid.local')">
+              <span class="chip-dot crimson"></span>Blood Bank
+            </button>
+            <button type="button" class="role-chip" [class.selected]="email === 'demo.lab@smartaid.local'" (click)="selectDemoRole('demo.lab@smartaid.local')">
+              <span class="chip-dot violet"></span>Lab Staff
+            </button>
+            <button type="button" class="role-chip" [class.selected]="email === 'demo.doctor@smartaid.local'" (click)="selectDemoRole('demo.doctor@smartaid.local')">
+              <span class="chip-dot teal"></span>Doctor
+            </button>
+            <button type="button" class="role-chip" [class.selected]="email === 'demo.volunteer@smartaid.local'" (click)="selectDemoRole('demo.volunteer@smartaid.local')">
+              <span class="chip-dot emerald"></span>Volunteer
+            </button>
+            <button type="button" class="role-chip" [class.selected]="email === 'demo.user@smartaid.local'" (click)="selectDemoRole('demo.user@smartaid.local')">
+              <span class="chip-dot sky"></span>Citizen
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+} @else {
+  <div class="ecc-layout">
+    <!-- Dark Command Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="logo-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4">
+            <path d="M12 5v14M5 12h14" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <div class="logo-title">SMART AID</div>
+          <div class="logo-sub">Command Center v2.1</div>
+        </div>
+      </div>
+
+      <button type="button" class="live-indicator" [class.paused-state]="!autoRefresh()" (click)="toggleAutoRefresh()" title="Toggle 5-second live polling">
+        <span class="pulse-dot" [class.paused]="!autoRefresh()"></span>
+        <span class="live-text">{{ autoRefresh() ? 'LIVE SYNC • 5s' : 'SYNC PAUSED' }}</span>
+        <span class="live-toggle-hint">{{ autoRefresh() ? 'ON' : 'OFF' }}</span>
+      </button>
+
+      <div class="nav-section-label">OPERATIONS</div>
+      <nav class="side-nav" aria-label="Command Center Navigation">
+        <button type="button" [class.active]="activeTab() === 'overview'" (click)="setTab('overview')">
+          <span class="nav-left">
+            <svg class="nav-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="nav-label">Live Command &amp; SOS</span>
+          </span>
+          <span class="nav-count red">{{ liveIncidents().length }}</span>
+        </button>
+
+        <button type="button" [class.active]="activeTab() === 'hospitals'" (click)="setTab('hospitals')">
+          <span class="nav-left">
+            <svg class="nav-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 21h18M5 21V7l7-4 7 4v14M9 11h6M12 8v6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="nav-label">Hospitals &amp; Handovers</span>
+          </span>
+          <span class="nav-count">{{ hospitals().length }}</span>
+        </button>
+
+        <button type="button" [class.active]="activeTab() === 'pharmacy'" (click)="setTab('pharmacy')">
+          <span class="nav-left">
+            <svg class="nav-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="8" width="18" height="12" rx="2"/>
+              <path d="M8 8V6a4 4 0 018 0v2M12 11v6M9 14h6" stroke-linecap="round"/>
+            </svg>
+            <span class="nav-label">Pharmacy &amp; Delivery</span>
+          </span>
+          <span class="nav-count">{{ pendingOrders().length + deliveries().length }}</span>
+        </button>
+
+        <button type="button" [class.active]="activeTab() === 'bloodbank'" (click)="setTab('bloodbank')">
+          <span class="nav-left">
+            <svg class="nav-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="nav-label">Smart Blood Bank</span>
+          </span>
+          <span class="nav-count">{{ bloodRequests().length }}</span>
+        </button>
+
+        <button type="button" [class.active]="activeTab() === 'providers'" (click)="setTab('providers')">
+          <span class="nav-left">
+            <svg class="nav-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 3h6M10 3v6.5L5.5 18A2 2 0 007.2 21h9.6a2 2 0 001.7-3L14 9.5V3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="nav-label">Labs &amp; Care Services</span>
+          </span>
+          <span class="nav-count">{{ labAppointments().length + providerAppointments().length }}</span>
+        </button>
+
+        @if (auth.hasAnyRole('ADMIN') || auth.hasAnyRole('EMS', 'ADMIN', 'VOLUNTEER')) {
+          <div class="nav-section-label spaced">GOVERNANCE &amp; INSIGHTS</div>
+        }
+
+        @if (auth.hasAnyRole('ADMIN')) {
+          <button type="button" [class.active]="activeTab() === 'admin'" (click)="setTab('admin')">
+            <span class="nav-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span class="nav-label">Users, Vols &amp; Audit</span>
+            </span>
+            <span class="nav-count">{{ users().length }}</span>
+          </button>
+        }
+
+        @if (auth.hasAnyRole('EMS', 'ADMIN', 'VOLUNTEER')) {
+          <button type="button" [class.active]="activeTab() === 'analytics'" (click)="setTab('analytics')">
+            <span class="nav-left">
+              <svg class="nav-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 20V10M12 20V4M6 20v-6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span class="nav-label">Smart ER Analytics</span>
+            </span>
+            <span class="nav-count teal">ER</span>
+          </button>
+        }
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="operator-card">
+          <div class="operator-top">
+            <div class="operator-avatar">{{ operatorInitials() }}</div>
+            <div class="operator-meta">
+              <div class="operator-name">{{ auth.currentUser()?.displayName }}</div>
+              <div class="operator-roles">{{ auth.roles().join(' • ') }}</div>
+            </div>
+          </div>
+          <div class="sync-time">Last sync: {{ lastSyncedAt() }}</div>
+        </div>
+        <button type="button" class="btn-signout" (click)="onLogout()">Sign Out</button>
+      </div>
+    </aside>
+
+    <!-- Main Operational Workspace -->
+    <div class="main-area">
+      <header class="workspace-header">
+        <div class="header-left">
+          <div class="header-eyebrow">
+            <span>SMART AID ECC</span>
+            @if (isSandboxSession()) {
+              <span class="demo-chip">DEMO • SANDBOX</span>
+            }
+          </div>
+          <h1 class="page-title">
+            @switch (activeTab()) {
+              @case ('overview') { Emergency Operations Center — Live Incident Feed }
+              @case ('hospitals') { Hospital Capacity &amp; EMS Medical Handovers }
+              @case ('pharmacy') { Smart Pharmacy Orders &amp; Medical Delivery }
+              @case ('bloodbank') { Smart Blood Bank Stock &amp; Urgent Requests }
+              @case ('providers') { Diagnostic Labs &amp; Medical Services }
+              @case ('admin') { System Administration, Volunteers &amp; Security Audit }
+              @case ('analytics') { Smart ER Research Benchmark &amp; Analytics }
+            }
+          </h1>
+          <div class="page-subtitle">
+            All requests submitted from the Smart Aid Mobile APK synchronize directly with this operational console.
+          </div>
+        </div>
+        <div class="header-actions">
+          <div class="sync-badge">
+            <span class="sync-dot" [class.paused]="!autoRefresh()"></span>
+            <span>{{ lastSyncedAt() }}</span>
+          </div>
+          <button type="button" class="btn-outline btn-refresh" (click)="refreshAll()" [class.spinning]="refreshing()">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M23 4v6h-6M1 20v-6h6" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Refresh Now</span>
+          </button>
+        </div>
+      </header>
+
+      <main class="workspace-body">
+        @if (statusBanner()) {
+          <div
+            [ngClass]="
+              bannerTone() === 'error'
+                ? 'banner-error banner-dismissible'
+                : bannerTone() === 'info'
+                  ? 'banner-info banner-dismissible'
+                  : 'banner-success'
+            "
+            [attr.role]="bannerTone() === 'error' ? 'alert' : 'status'"
+          >
+            <span class="banner-text">{{ statusBanner() }}</span>
+            <button type="button" class="banner-close" (click)="dismissBanner()" aria-label="Dismiss notification">×</button>
+          </div>
+        }
+
+        <!-- TAB 1: LIVE COMMAND & SOS -->
+        @if (activeTab() === 'overview') {
+          <section class="kpi-grid">
+            <div class="kpi-card accent-red">
+              <div class="kpi-head">
+                <div class="kpi-title">Active SOS Incidents</div>
+                <div class="kpi-icon red">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0zM12 9v4M12 17h.01" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="kpi-num">{{ emsDashboard()?.['activeIncidents'] ?? liveIncidents().length }}</div>
+              <div class="kpi-meta">Critical Priority: <strong>{{ emsDashboard()?.['criticalIncidents'] ?? 0 }}</strong></div>
+            </div>
+
+            <div class="kpi-card accent-blue">
+              <div class="kpi-head">
+                <div class="kpi-title">Verified Hospitals</div>
+                <div class="kpi-icon blue">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <path d="M3 21h18M5 21V7l7-4 7 4v14M9 11h6M12 8v6" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="kpi-num">{{ hospitals().length }}</div>
+              <div class="kpi-meta">Smart ER Multi-Factor Ready</div>
+            </div>
+
+            <div class="kpi-card accent-teal">
+              <div class="kpi-head">
+                <div class="kpi-title">Fleet &amp; AED Units</div>
+                <div class="kpi-icon teal">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="kpi-num">{{ ambulances().length }} <span class="kpi-slash">/</span> {{ aeds().length }}</div>
+              <div class="kpi-meta">Ambulances / Verified AEDs</div>
+            </div>
+
+            <div class="kpi-card accent-amber">
+              <div class="kpi-head">
+                <div class="kpi-title">Connected Care Queue</div>
+                <div class="kpi-icon amber">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3" stroke-linecap="round"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="kpi-num">{{ pendingOrders().length + bloodRequests().length + handovers().length }}</div>
+              <div class="kpi-meta">Orders • Blood • Handovers</div>
+            </div>
+          </section>
+
+          <section class="card-panel">
+            <div class="panel-header">
+              <div>
+                <h2>Live Emergency Incident Queue (Mobile APK → ECC)</h2>
+                <p class="panel-sub">Real-time SOS reports submitted by citizens appear immediately below.</p>
+              </div>
+              <div class="panel-controls">
+                <input
+                  type="search"
+                  class="search-input"
+                  [ngModel]="incidentFilter()"
+                  (ngModelChange)="incidentFilter.set($event)"
+                  placeholder="Filter by type, status, priority..."
+                  aria-label="Filter incidents"
+                />
+                <span class="pill-live">
+                  <span class="pill-dot"></span>
+                  {{ liveIncidents().length }} Active
+                </span>
+              </div>
+            </div>
+
+            <div class="table-wrap">
+              <table class="ecc-table">
+                <thead>
+                  <tr>
+                    <th>Incident ID</th>
+                    <th>Type</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th>Coordinates</th>
+                    <th>Created</th>
+                    <th>ECC Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (inc of filteredIncidents(); track inc['id']) {
+                    <tr [class.row-selected]="selectedIncidentId() === '' + inc['id']">
+                      <td class="mono id-cell">{{ ('' + inc['id']).slice(0, 8) }}…</td>
+                      <td><strong>{{ inc['emergencyType'] }}</strong></td>
+                      <td>
+                        <span class="priority-badge" [ngClass]="priorityClass(inc['priority'])">
+                          {{ inc['priority'] }}
+                        </span>
+                      </td>
+                      <td>
+                        <span class="status-pill" [ngClass]="statusClass(inc['status'])">
+                          {{ inc['status'] }}
+                        </span>
+                      </td>
+                      <td class="mono">{{ formatCoords(inc['location']) }}</td>
+                      <td class="muted">{{ formatTime(inc['createdAt']) }}</td>
+                      <td class="action-cell">
+                        <button type="button" class="btn-sm btn-primary" (click)="inspectSmartEr('' + inc['id'])">
+                          Smart ER
+                        </button>
+                        @if (inc['status'] === 'SEARCHING' || inc['status'] === 'RESPONDER_ASSIGNED') {
+                          <button type="button" class="btn-sm btn-dark" (click)="dispatchEms('' + inc['id'])">
+                            Assign EMS
+                          </button>
+                        }
+                      </td>
+                    </tr>
+                  } @empty {
+                    <tr>
+                      <td colspan="7" class="empty-cell">
+                        No matching active incidents in queue (or sign in as EMS / Admin to view ECC dispatch queue).
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          @if (selectedIncidentId()) {
+            <section class="card-panel smart-er-panel">
+              <div class="panel-header">
+                <div>
+                  <h2>Smart ER Multi-Factor Hospital Recommendations — Incident {{ selectedIncidentId()?.slice(0, 8) }}…</h2>
+                  <div class="formula-chips">
+                    <span class="formula-chip">30% Travel Time</span>
+                    <span class="formula-chip">30% Capability</span>
+                    <span class="formula-chip">25% Specialty</span>
+                    <span class="formula-chip">15% Congestion</span>
+                    <span class="formula-chip dark">Hard Pre-Filters Enforced</span>
+                  </div>
+                </div>
+                <button type="button" class="btn-sm btn-outline" (click)="selectedIncidentId.set(null)">Close</button>
+              </div>
+
+              <div class="rec-grid">
+                @for (rec of smartErResults(); track rec['hospitalId']; let idx = $index) {
+                  <div class="rec-card" [class.top-match]="idx === 0">
+                    <div class="rec-top">
+                      <div class="rec-name-wrap">
+                        @if (idx === 0) {
+                          <span class="rank-pill">#1 Recommended</span>
+                        } @else {
+                          <span class="rank-pill secondary">#{{ idx + 1 }}</span>
+                        }
+                        <strong>{{ rec['hospitalName'] }}</strong>
+                      </div>
+                      <span class="score-badge">{{ rec['score'] }} / 100</span>
+                    </div>
+                    <div class="score-bar-bg">
+                      <div class="score-bar-fill" [style.width.%]="asPercent(rec['score'])"></div>
+                    </div>
+                    <div class="rec-meta">
+                      <span>Estimated ETA: <strong>{{ rec['etaMinutes'] }} min</strong></span>
+                      <span class="muted">Multi-factor utility score</span>
+                    </div>
+                  </div>
+                } @empty {
+                  <div class="empty-cell">No verified hospital matched all mandatory specialty/capability filters.</div>
+                }
+              </div>
+            </section>
+          }
+
+          <section class="card-panel">
+            <div class="panel-header">
+              <div>
+                <h2>Ambulance Fleet Telemetry &amp; AED Units</h2>
+                <p class="panel-sub">Registered emergency response units synchronized across the platform.</p>
+              </div>
+              <span class="status-pill status-info">{{ ambulances().length }} Vehicles • {{ aeds().length }} AEDs</span>
+            </div>
+            <div class="table-wrap">
+              <table class="ecc-table">
+                <thead><tr><th>Call Sign</th><th>Operational Status</th><th>Location</th></tr></thead>
+                <tbody>
+                  @for (amb of ambulances(); track amb['id']) {
+                    <tr>
+                      <td><strong>{{ amb['callSign'] }}</strong></td>
+                      <td>
+                        <span class="status-pill" [ngClass]="statusClass(amb['status'])">
+                          {{ amb['status'] }}
+                        </span>
+                      </td>
+                      <td class="mono">{{ amb['latitude'] }}, {{ amb['longitude'] }}</td>
+                    </tr>
+                  } @empty {
+                    <tr><td colspan="3" class="empty-cell">No ambulance units loaded.</td></tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </section>
+        }
+
+        <!-- TAB 2: HOSPITALS & HANDOVERS -->
+        @if (activeTab() === 'hospitals') {
+          <section class="card-panel">
+            <div class="panel-header">
+              <div>
+                <h2>Real-Time Hospital Capacity &amp; Congestion Control</h2>
+                <p class="panel-sub">Authorized Hospital Staff, EMS, and Admin updates refresh Smart ER scoring immediately.</p>
+              </div>
+              <span class="status-pill status-info">{{ hospitals().length }} Hospitals</span>
+            </div>
+            <div class="table-wrap">
+              <table class="ecc-table">
+                <thead><tr><th>Hospital</th><th>Last Verified</th><th>Congestion Gauge &amp; Presets</th><th>Action</th></tr></thead>
+                <tbody>
+                  @for (h of hospitals(); track h['id']) {
+                    <tr>
+                      <td>
+                        <strong>{{ h['name'] }}</strong>
+                        <div class="muted mono">{{ h['latitude'] }}, {{ h['longitude'] }}</div>
+                      </td>
+                      <td class="muted">{{ formatTime(h['updatedAt']) }}</td>
+                      <td>
+                        <div class="congestion-control">
+                          <div class="mini-bar-track">
+                            <div
+                              class="mini-bar-fill"
+                              [ngClass]="congestionClass(selectedCongestion['' + h['id']])"
+                              [style.width.%]="asPercent(selectedCongestion['' + h['id']])"
+                            ></div>
+                          </div>
+                          <div class="preset-row">
+                            <input
+                              type="number"
+                              min="0"
+                              max="100"
+                              class="num-input"
+                              [attr.aria-label]="'Congestion percentage for ' + h['name']"
+                              [(ngModel)]="selectedCongestion['' + h['id']]"
+                            />
+                            <button type="button" class="preset-btn" [class.active]="selectedCongestion['' + h['id']] === 25" (click)="setCongestionPreset('' + h['id'], 25)">25%</button>
+                            <button type="button" class="preset-btn" [class.active]="selectedCongestion['' + h['id']] === 50" (click)="setCongestionPreset('' + h['id'], 50)">50%</button>
+                            <button type="button" class="preset-btn" [class.active]="selectedCongestion['' + h['id']] === 80" (click)="setCongestionPreset('' + h['id'], 80)">80%</button>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <button type="button" class="btn-sm btn-primary" (click)="updateCapacity('' + h['id'])">
+                          Save Capacity
+                        </button>
+                      </td>
+                    </tr>
+                  } @empty {
+                    <tr><td colspan="4" class="empty-cell">No hospitals available.</td></tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="card-panel">
+            <div class="panel-header">
+              <div>
+                <h2>Pending EMS-to-Hospital Medical Handovers</h2>
+                <p class="panel-sub">Structured clinical handovers awaiting receiving ER confirmation.</p>
+              </div>
+              <span class="status-pill status-warning">{{ handovers().length }} Pending</span>
+            </div>
+            <div class="table-wrap">
+              <table class="ecc-table">
+                <thead><tr><th>Incident</th><th>Triage Summary</th><th>Vital Signs</th><th>Interventions</th><th>Action</th></tr></thead>
+                <tbody>
+                  @for (ho of handovers(); track ho['id']) {
+                    <tr>
+                      <td class="mono id-cell">{{ ('' + ho['incidentId']).slice(0, 8) }}…</td>
+                      <td><strong>{{ ho['triageSummary'] }}</strong></td>
+                      <td>{{ ho['vitalSigns'] }}</td>
+                      <td>{{ ho['interventionsAdministered'] }}</td>
+                      <td>
+                        <button type="button" class="btn-sm btn-primary" (click)="acknowledgeHandover('' + ho['id'])">
+                          Acknowledge Receipt
+                        </button>
+                      </td>
+                    </tr>
+                  } @empty {
+                    <tr><td colspan="5" class="empty-cell">No pending EMS handovers awaiting hospital confirmation.</td></tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </section>
+        }
+
+        <!-- TAB 3: PHARMACY & DELIVERY -->
+        @if (activeTab() === 'pharmacy') {
+          <section class="card-panel">
+            <div class="panel-header">
+              <div>
+                <h2>Incoming Pharmacy &amp; Emergency Supply Orders</h2>
+                <p class="panel-sub">Orders placed from the Mobile APK appear here automatically (Rx-only orders blocked at API level).</p>
+              </div>
+              <span class="status-pill status-warning">{{ pendingOrders().length }} Pending</span>
+            </div>
+            <div class="table-wrap">
+              <table class="ecc-table">
+                <thead><tr><th>Order ID</th><th>Qty</th><th>Fulfillment</th><th>Address</th><th>Status</th><th>Actions</th></tr></thead>
+                <tbody>
+                  @for (ord of pendingOrders(); track ord['id']) {
+                    <tr>
+                      <td class="mono id-cell">{{ ('' + ord['id']).slice(0, 8) }}…</td>
+                      <td><strong>{{ ord['quantity'] }}</strong></td>
+                      <td>{{ ord['deliveryRequested'] ? 'Courier Delivery' : 'Counter Pickup' }}</td>
+                      <td>{{ ord['deliveryAddress'] ?? 'Counter Pickup' }}</td>
+                      <td>
+                        <span class="status-pill" [ngClass]="statusClass(ord['orderStatus'])">
+                          {{ ord['orderStatus'] }}
+                        </span>
+                      </td>
+                      <td class="action-cell">
+                        <button type="button" class="btn-sm btn-primary" (click)="advanceOrderStatus('' + ord['id'], 'DISPATCHED')">
+                          Dispatch
+                        </button>
+                        <button type="button" class="btn-sm btn-outline" (click)="advanceOrderStatus('' + ord['id'], 'COMPLETED')">
+                          Complete
+                        </button>
+                      </td>
+                    </tr>
+                  } @empty {
+                    <tr><td colspan="6" class="empty-cell">No pending pharmacy orders right now.</td></tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="card-panel">
+            <div class="panel-header">
+              <div>
+                <h2>Active Medical Deliveries</h2>
+                <p class="panel-sub">Live courier tracking codes and estimated arrival times.</p>
+              </div>
+              <span class="status-pill status-info">{{ deliveries().length }} Tracked</span>
+            </div>
+            <div class="table-wrap">
+              <table class="ecc-table">
+                <thead><tr><th>Tracking Code</th><th>Courier</th><th>ETA</th><th>Destination</th><th>Status</th><th>Actions</th></tr></thead>
+                <tbody>
+                  @for (d of deliveries(); track d['id']) {
+                    <tr>
+                      <td class="mono"><strong>{{ d['trackingCode'] }}</strong></td>
+                      <td>{{ d['courierName'] }}</td>
+                      <td><strong>{{ d['etaMinutes'] }} min</strong></td>
+                      <td>{{ d['deliveryAddress'] }}</td>
+                      <td>
+                        <span class="status-pill" [ngClass]="statusClass(d['deliveryStatus'])">
+                          {{ d['deliveryStatus'] }}
+                        </span>
+                      </td>
+                      <td class="action-cell">
+                        @if (d['deliveryStatus'] !== 'DELIVERED') {
+                          <button type="button" class="btn-sm btn-primary" (click)="advanceDeliveryStatus('' + d['trackingCode'], 'DELIVERED')">
+                            Mark Delivered
+                          </button>
+                        }
+                      </td>
+                    </tr>
+                  } @empty {
+                    <tr><td colspan="6" class="empty-cell">No medical deliveries recorded yet.</td></tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </section>
+        }
+
+        <!-- TAB 4: SMART BLOOD BANK -->
+        @if (activeTab() === 'bloodbank') {
+          <section class="card-panel">
+            <div class="panel-header">
+              <div>
+                <h2>Aggregate Blood Group Availability (Donor-Privacy Preserving)</h2>
+                <p class="panel-sub">DEMO • Sandbox aggregate units across verified blood banks.</p>
+              </div>
+              <span class="status-pill status-critical">{{ bloodInventory().length }} Blood Groups</span>
+            </div>
+            <div class="blood-grid">
+              @for (inv of bloodInventory(); track inv['id']) {
+                <div class="blood-tile" [ngClass]="bloodLevelClass(inv['unitsAvailable'])">
+                  <div class="blood-tile-top">
+                    <span class="blood-type">{{ inv['bloodGroup'] }}</span>
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="blood-drop" aria-hidden="true">
+                      <path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/>
+                    </svg>
+                  </div>
+                  <div class="blood-units"><strong>{{ inv['unitsAvailable'] }}</strong> units</div>
+                  <div class="blood-meter">
+                    <div class="blood-meter-fill" [style.width.%]="bloodLevelPercent(inv['unitsAvailable'])"></div>
+                  </div>
+                </div>
+              } @empty {
+                <div class="empty-cell">No blood inventory units reported yet.</div>
+              }
+            </div>
+          </section>
+
+          <section class="card-panel">
+            <div class="panel-header">
+              <div>
+                <h2>Live Blood Requests Queue</h2>
+                <p class="panel-sub">Urgent requests submitted from citizen and hospital workflows.</p>
+              </div>
+              <span class="status-pill status-warning">{{ bloodRequests().length }} Total</span>
+            </div>
+            <div class="table-wrap">
+              <table class="ecc-table">
+                <thead><tr><th>Blood Group</th><th>Units</th><th>Urgency</th><th>Status</th><th>Action</th></tr></thead>
+                <tbody>
+                  @for (req of bloodRequests(); track req['id']) {
+                    <tr>
+                      <td><strong class="text-red blood-badge">{{ req['bloodGroup'] }}</strong></td>
+                      <td><strong>{{ req['unitsRequested'] }}</strong></td>
+                      <td><span class="priority-badge" [ngClass]="priorityClass(req['urgency'])">{{ req['urgency'] }}</span></td>
+                      <td>
+                        <span class="status-pill" [ngClass]="statusClass(req['status'])">
+                          {{ req['status'] }}
+                        </span>
+                      </td>
+                      <td>
+                        @if (req['status'] === 'PENDING') {
+                          <button type="button" class="btn-sm btn-primary" (click)="fulfillBloodRequest('' + req['id'])">
+                            Fulfill Request
+                          </button>
+                        }
+                      </td>
+                    </tr>
+                  } @empty {
+                    <tr><td colspan="5" class="empty-cell">No blood requests currently logged.</td></tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </section>
+        }
+
+        <!-- TAB 5: LABS & CARE SERVICES -->
+        @if (activeTab() === 'providers') {
+          <section class="card-panel">
+            <div class="panel-header">
+              <div>
+                <h2>Laboratory Appointments Queue</h2>
+                <p class="panel-sub">Diagnostic lab bookings and authorized result publication.</p>
+              </div>
+              <span class="status-pill status-info">{{ labAppointments().length }} Bookings</span>
+            </div>
+            <div class="table-wrap">
+              <table class="ecc-table">
+                <thead><tr><th>Appointment ID</th><th>Scheduled</th><th>Status</th><th>Result Summary</th><th>Action</th></tr></thead>
+                <tbody>
+                  @for (app of labAppointments(); track app['id']) {
+                    <tr>
+                      <td class="mono id-cell">{{ ('' + app['id']).slice(0, 8) }}…</td>
+                      <td class="muted">{{ formatTime(app['scheduledAt']) }}</td>
+                      <td>
+                        <span class="status-pill" [ngClass]="statusClass(app['status'])">
+                          {{ app['status'] }}
+                        </span>
+                      </td>
+                      <td>{{ app['resultSummary'] ?? 'Pending lab verification' }}</td>
+                      <td>
+                        @if (app['status'] !== 'COMPLETED') {
+                          <button type="button" class="btn-sm btn-primary" (click)="publishLabResult('' + app['id'])">
+                            Publish Result
+                          </button>
+                        }
+                      </td>
+                    </tr>
+                  } @empty {
+                    <tr><td colspan="5" class="empty-cell">No lab appointments booked yet.</td></tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="card-panel">
+            <div class="panel-header">
+              <div>
+                <h2>Medical Provider &amp; Telemedicine Bookings</h2>
+                <p class="panel-sub">Doctor consultations and follow-up care requests.</p>
+              </div>
+              <span class="status-pill status-info">{{ providerAppointments().length }} Bookings</span>
+            </div>
+            <div class="table-wrap">
+              <table class="ecc-table">
+                <thead><tr><th>Booking ID</th><th>Type</th><th>Chief Complaint</th><th>Status</th><th>Action</th></tr></thead>
+                <tbody>
+                  @for (pa of providerAppointments(); track pa['id']) {
+                    <tr>
+                      <td class="mono id-cell">{{ ('' + pa['id']).slice(0, 8) }}…</td>
+                      <td><strong>{{ pa['appointmentType'] }}</strong></td>
+                      <td>{{ pa['chiefComplaint'] ?? 'General consultation' }}</td>
+                      <td>
+                        <span class="status-pill" [ngClass]="statusClass(pa['status'])">
+                          {{ pa['status'] }}
+                        </span>
+                      </td>
+                      <td>
+                        @if (pa['status'] === 'SCHEDULED') {
+                          <button type="button" class="btn-sm btn-primary" (click)="confirmProviderAppointment('' + pa['id'])">
+                            Confirm
+                          </button>
+                        }
+                      </td>
+                    </tr>
+                  } @empty {
+                    <tr><td colspan="5" class="empty-cell">No provider appointments booked yet.</td></tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </section>
+        }
+
+        <!-- TAB 6: ADMIN GOVERNANCE -->
+        @if (activeTab() === 'admin') {
+          <section class="card-panel">
+            <div class="panel-header">
+              <div>
+                <h2>Registered Platform Accounts &amp; 9-Role RBAC Matrix</h2>
+                <p class="panel-sub">Active identities across citizen, responder, healthcare, and ECC operator roles.</p>
+              </div>
+              <div class="panel-controls">
+                <input
+                  type="search"
+                  class="search-input"
+                  [ngModel]="userFilter()"
+                  (ngModelChange)="userFilter.set($event)"
+                  placeholder="Search name, email, or role..."
+                  aria-label="Filter users"
+                />
+                <span class="status-pill status-info">{{ users().length }} Accounts</span>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table class="ecc-table">
+                <thead><tr><th>Name</th><th>Email</th><th>Assigned Roles</th><th>Status</th></tr></thead>
+                <tbody>
+                  @for (u of filteredUsers(); track u['id']) {
+                    <tr>
+                      <td><strong>{{ u['displayName'] }}</strong></td>
+                      <td class="mono">{{ u['email'] }}</td>
+                      <td>
+                        <div class="role-pill-row">
+                          @for (r of safeRoles(u['roles']); track r) {
+                            <span class="rbac-tag">{{ r }}</span>
+                          }
+                        </div>
+                      </td>
+                      <td>
+                        <span class="status-pill" [ngClass]="u['enabled'] ? 'status-success' : 'status-critical'">
+                          {{ u['enabled'] ? 'ACTIVE' : 'DISABLED' }}
+                        </span>
+                      </td>
+                    </tr>
+                  } @empty {
+                    <tr><td colspan="4" class="empty-cell">No matching platform accounts found.</td></tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="card-panel">
+            <div class="panel-header">
+              <div>
+                <h2>Field Volunteer Verification Roster</h2>
+                <p class="panel-sub">Approve certified first-aid volunteers for Smart Dispatch eligibility.</p>
+              </div>
+              <span class="status-pill status-info">{{ volunteers().length }} Responders</span>
+            </div>
+            <div class="table-wrap">
+              <table class="ecc-table">
+                <thead><tr><th>Responder</th><th>Email</th><th>Verified</th><th>Availability</th><th>Action</th></tr></thead>
+                <tbody>
+                  @for (v of volunteers(); track v['userId']) {
+                    <tr>
+                      <td><strong>{{ v['displayName'] }}</strong></td>
+                      <td class="mono">{{ v['email'] }}</td>
+                      <td>
+                        <span class="status-pill" [ngClass]="v['verified'] ? 'status-success' : 'status-warning'">
+                          {{ v['verified'] ? 'VERIFIED' : 'PENDING' }}
+                        </span>
+                      </td>
+                      <td>
+                        <span class="status-pill" [ngClass]="v['available'] ? 'status-info' : 'status-muted'">
+                          {{ v['available'] ? 'Online' : 'Offline' }}
+                        </span>
+                      </td>
+                      <td>
+                        @if (!v['verified']) {
+                          <button type="button" class="btn-sm btn-primary" (click)="verifyVolunteerAccount('' + v['userId'])">
+                            Verify Volunteer
+                          </button>
+                        }
+                      </td>
+                    </tr>
+                  } @empty {
+                    <tr><td colspan="5" class="empty-cell">No volunteer responders registered yet.</td></tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="card-panel">
+            <div class="panel-header">
+              <div>
+                <h2>Immutable Security &amp; Operational Audit Trail</h2>
+                <p class="panel-sub">Latest {{ auditLogs().length }} traceable events recorded by the Spring Boot backend.</p>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table class="ecc-table">
+                <thead><tr><th>Action</th><th>Entity</th><th>Timestamp</th><th>Trace ID</th></tr></thead>
+                <tbody>
+                  @for (log of auditLogs().slice(0, 20); track log['id']) {
+                    <tr>
+                      <td><strong>{{ log['action'] }}</strong></td>
+                      <td><span class="rbac-tag">{{ log['entityType'] }}</span></td>
+                      <td class="muted">{{ formatTime(log['createdAt']) }}</td>
+                      <td class="mono">{{ log['traceId'] ?? '—' }}</td>
+                    </tr>
+                  } @empty {
+                    <tr><td colspan="4" class="empty-cell">No audit events recorded yet.</td></tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </section>
+        }
+
+        <!-- TAB 7: SMART ER RESEARCH & ANALYTICS -->
+        @if (activeTab() === 'analytics') {
+          <section class="kpi-grid">
+            <div class="kpi-card accent-teal">
+              <div class="kpi-head">
+                <div class="kpi-title">Smart ER Mean Score</div>
+                <div class="kpi-icon teal">★</div>
+              </div>
+              <div class="kpi-num">{{ researchReport()?.['smartErAverageScore'] ?? '—' }}</div>
+              <div class="kpi-meta">Multi-Factor Weighted Utility</div>
+            </div>
+            <div class="kpi-card accent-amber">
+              <div class="kpi-head">
+                <div class="kpi-title">Nearest-Only Baseline</div>
+                <div class="kpi-icon amber">◎</div>
+              </div>
+              <div class="kpi-num">{{ researchReport()?.['nearestAverageScore'] ?? '—' }}</div>
+              <div class="kpi-meta">Proximity Only</div>
+            </div>
+            <div class="kpi-card accent-red">
+              <div class="kpi-head">
+                <div class="kpi-title">Seeded Random Baseline</div>
+                <div class="kpi-icon red">↺</div>
+              </div>
+              <div class="kpi-num">{{ researchReport()?.['randomAverageScore'] ?? '—' }}</div>
+              <div class="kpi-meta">Fixed Seed (42) Reproducible</div>
+            </div>
+            <div class="kpi-card accent-blue">
+              <div class="kpi-head">
+                <div class="kpi-title">Total Recorded Incidents</div>
+                <div class="kpi-icon blue">#</div>
+              </div>
+              <div class="kpi-num">{{ analytics()?.['totalIncidents'] ?? '—' }}</div>
+              <div class="kpi-meta">Resolved: <strong>{{ analytics()?.['resolvedIncidents'] ?? 0 }}</strong></div>
+            </div>
+          </section>
+
+          <section class="card-panel">
+            <div class="panel-header">
+              <div>
+                <h2>Empirical Strategy Comparison Summary</h2>
+                <p class="panel-sub">{{ researchReport()?.['summaryNotes'] ?? 'Run scenarios to generate benchmark.' }}</p>
+              </div>
+              <span class="status-pill status-success">Reproducible Seed (42)</span>
+            </div>
+
+            @if (researchReport()) {
+              <div class="benchmark-bars">
+                <div class="bench-row">
+                  <div class="bench-label-row">
+                    <span><strong>Smart ER Multi-Factor Routing</strong></span>
+                    <span class="bench-score teal">{{ researchReport()?.['smartErAverageScore'] }} / 100</span>
+                  </div>
+                  <div class="score-bar-bg tall">
+                    <div class="score-bar-fill teal" [style.width.%]="asPercent(researchReport()?.['smartErAverageScore'])"></div>
+                  </div>
+                </div>
+
+                <div class="bench-row">
+                  <div class="bench-label-row">
+                    <span><strong>Nearest-Hospital Baseline</strong></span>
+                    <span class="bench-score amber">{{ researchReport()?.['nearestAverageScore'] }} / 100</span>
+                  </div>
+                  <div class="score-bar-bg tall">
+                    <div class="score-bar-fill amber" [style.width.%]="asPercent(researchReport()?.['nearestAverageScore'])"></div>
+                  </div>
+                </div>
+
+                <div class="bench-row">
+                  <div class="bench-label-row">
+                    <span><strong>Seeded Random Baseline</strong></span>
+                    <span class="bench-score red">{{ researchReport()?.['randomAverageScore'] }} / 100</span>
+                  </div>
+                  <div class="score-bar-bg tall">
+                    <div class="score-bar-fill red" [style.width.%]="asPercent(researchReport()?.['randomAverageScore'])"></div>
+                  </div>
+                </div>
+              </div>
+            }
+          </section>
+        }
+      </main>
+    </div>
+  </div>
+}

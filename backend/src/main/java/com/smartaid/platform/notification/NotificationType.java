@@ -1,0 +1,5 @@
+package com.smartaid.platform.notification;
+
+public enum NotificationType {
+    EMERGENCY_ALERT, RESPONDER_ASSIGNED, INCIDENT_ACCEPTED, AMBULANCE_ASSIGNED, HOSPITAL_RECOMMENDED, STATUS_CHANGED, SYSTEM
+}

@@ -1,0 +1,44 @@
+spring:
+  application:
+    name: smartaid-api
+  config:
+    import: optional:file:../.env[.properties],optional:file:.env[.properties]
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:smartaid}
+    username: ${DB_USERNAME:smartaid_user}
+    password: ${DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  flyway:
+    enabled: true
+server:
+  port: ${BACKEND_PORT:8080}
+  error:
+    include-message: never
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+smartaid:
+  demo:
+    seed: ${SMARTAID_DEMO_SEED:false}
+  runtime:
+    tomcat-nio2: ${SMARTAID_TOMCAT_NIO2:false}
+  security:
+    jwt-secret: ${JWT_SECRET}
+    access-token-minutes: ${ACCESS_TOKEN_MINUTES:1440}
+    refresh-token-days: 14
+    cors-allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:*,http://127.0.0.1:*,http://192.168.*:*,http://10.0.2.2:*,*}
+  dispatch:
+    maximum-radius-km: 15
+  smart-er:
+    travel-time-weight: 0.30
+    capability-weight: 0.30
+    specialty-weight: 0.25
+    congestion-weight: 0.15
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} %-5level [%X{traceId:-}] %logger{36} - %msg%n"

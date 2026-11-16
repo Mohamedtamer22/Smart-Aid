@@ -1,0 +1,33 @@
+# Smart Aid — Official Research Abstract Worksheet
+
+**Project Title:** Smart Aid: AI-Powered Emergency Medical Response and Healthcare Coordination Platform  
+**Team Name:** FirstLine  
+**Declared Category:** Software Systems (SOFT) / Systems Software  
+**Official Abstract Word Count:** 242 words (Limit: Maximum 250 words)  
+**Date of Audit Verification:** 2026-11-16  
+
+---
+
+### ABSTRACT TEXT
+
+**Purpose:**  
+In emergency medicine, the platinum ten minutes dictate patient survival, yet emergency medical systems frequently suffer from response latency and arbitrary hospital destination routing. This project investigated whether a multi-factor algorithmic approach can optimize emergency resource dispatch and hospital selection compared to nearest-hospital and random-selection baselines, while protecting patient privacy and preventing system race conditions.
+
+**Procedure / Methodology:**  
+Smart Aid was engineered as a native coordination platform combining Java Spring Boot, PostgreSQL with PostGIS spatial indexing, and a Flutter mobile client. The architecture implements an idempotent SOS intake engine using PostgreSQL advisory locks, a deterministic rule-based priority triage classifier, and a spatial volunteer dispatch service with pessimistic concurrency locking. A multi-factor hospital recommendation algorithm (Smart ER) was formulated to weigh travel time (30%), critical care capabilities (30%), clinical specialty alignment (25%), and emergency department congestion (15%). The algorithm was empirically benchmarked against nearest-hospital and seeded random strategies across controlled emergency scenarios.
+
+**Data and Results:**  
+Software functionality was verified through 20 backend unit tests, 54 mobile responsive/widget tests across six device profiles, and a 14-stage automated live end-to-end integration test (100% pass rate). In algorithmic benchmarking, Smart ER achieved an average composite suitability score of 88.6/100, outperforming nearest-only (54.2/100) and random selection (48.7/100) by prioritizing specialized intervention facilities (e.g., cardiac catheterization) and avoiding severely congested emergency departments.
+
+**Conclusions:**  
+Smart Aid demonstrates that multi-factor decision support substantially enhances emergency destination suitability over pure proximity routing. Future work will integrate wearable accident-detection sensors and real-world road traffic telemetry.
+
+---
+
+### EVIDENCE TRACEABILITY & AUDIT NOTES (NOT PART OF OFFICIAL ABSTRACT TEXT)
+
+- **Word Count Verification:** 242 English words (verified via word counter; within strict 250-word ISEF limit).
+- **Test Metrics Source:** `mvnw.cmd test` (20 tests passed in 7.85s), `flutter test` (54 tests passed across 6 device profiles), `scripts/test-end-to-end.ps1` (14 stages passed live).
+- **Smart ER Algorithm Source:** `backend/src/main/java/com/smartaid/platform/smarter/SmartErService.java` (lines 15–30) and `application.yml` (weights: travel 0.30, capability 0.30, specialty 0.25, congestion 0.15).
+- **Benchmark Results Source:** `backend/src/main/java/com/smartaid/platform/analytics/AnalyticsService.java` (`runHospitalStrategiesComparison()`, evaluated on controlled scenario dataset in Cairo, Egypt).
+- **Authorship Notice:** This worksheet provides verified scientific text for student review. Student researchers must review, personalize, and validate this text prior to official competition submission.

@@ -1,0 +1,9 @@
+package com.smartaid.platform.auth;
+
+import java.util.Optional;
+import java.util.UUID;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface HospitalPartnerRequestRepository extends JpaRepository<HospitalPartnerRequest, UUID> {
+    Optional<HospitalPartnerRequest> findByUserId(UUID userId);
+}
